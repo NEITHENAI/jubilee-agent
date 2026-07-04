@@ -1,0 +1,863 @@
+{
+  "meta": {
+    "generated": "2026-07-04",
+    "purpose": "MVP seed knowledge base for Jubilee Insurance AI agent",
+    "source_priority_hierarchy": {
+      "KFD_legal": 1,
+      "policy_wording": 1,
+      "sales_handbook": 2,
+      "product_calc_deck": 2
+    },
+    "notes": [
+      "This is a manually curated seed built from 5 supplied files. It demonstrates the target chunk/metadata shape for the vector store, not a finished production pipeline.",
+      "Every chunk carries source_file, doc_type, and source_priority so retrieval-time or ingestion-time conflict resolution is possible.",
+      "Numeric facts (premiums, ages, amounts) should always be traced back to source_priority=1 (KFD/legal) documents where available. Where only a sales_handbook source exists, treat the fact as provisional and flag for client confirmation before using it in a live quote."
+    ]
+  },
+  "products": [
+    {
+      "product_id": "fanaka_plan",
+      "product_name": "Jubilee Fanaka Plan",
+      "category": "life_savings",
+      "line_of_business": "Life Insurance",
+      "status": "active",
+      "mvp_scope": "in_scope",
+      "sources": [
+        {
+          "file": "Fanaka_layer_1_KFD.pdf",
+          "doc_type": "KFD_legal",
+          "priority": 1
+        },
+        {
+          "file": "HANDBOOK_2026__2_.pptx",
+          "doc_type": "sales_handbook",
+          "priority": 2
+        }
+      ],
+      "conflicts_resolved": [
+        {
+          "field": "minimum_premium",
+          "values_found": [
+            {
+              "value": "Ushs 100,000 per month",
+              "source": "Fanaka_layer_1_KFD.pdf",
+              "doc_type": "KFD_legal"
+            },
+            {
+              "value": "Ushs 150,000",
+              "source": "HANDBOOK_2026__2_.pptx",
+              "doc_type": "sales_handbook"
+            }
+          ],
+          "resolution": "Ushs 100,000 per month",
+          "resolution_rule": "KFD (legal doc) outranks sales handbook per source-priority hierarchy",
+          "needs_client_confirmation": true,
+          "confirmation_note": "Flag to Jubilee: confirm whether 150,000 reflects a newer 2026 rate change not yet updated in the KFD, or whether the handbook figure is simply outdated."
+        },
+        {
+          "field": "entry_age_range",
+          "values_found": [
+            {
+              "value": "18-65 (implied general life product range, not explicit in KFD)",
+              "source": "Fanaka_layer_1_KFD.pdf",
+              "doc_type": "KFD_legal"
+            },
+            {
+              "value": "18-49 years",
+              "source": "HANDBOOK_2026__2_.pptx",
+              "doc_type": "sales_handbook"
+            }
+          ],
+          "resolution": "18-49 years (handbook)",
+          "resolution_rule": "KFD does not state an explicit age range for this product; handbook is the only source, used as-is pending confirmation",
+          "needs_client_confirmation": true
+        }
+      ],
+      "chunks": [
+        {
+          "chunk_id": "fanaka_001",
+          "product_id": "fanaka_plan",
+          "section": "value_statement",
+          "text": "With this plan, you gain the opportunity to save for future needs including provision of basic life necessities, business capital or start up fund for your children after school. The plan enables growth of your money over a period of time so that you are assured a lump sum payment. In addition, the plan provides additional cover for death and optional cover for permanent disability to ensure that your financial goals can still be met.",
+          "source_file": "Fanaka_layer_1_KFD.pdf",
+          "doc_type": "KFD_legal",
+          "source_priority": 1,
+          "tags": [
+            "overview"
+          ],
+          "ingested_date": "2026-07-04"
+        },
+        {
+          "chunk_id": "fanaka_002",
+          "product_id": "fanaka_plan",
+          "section": "benefits",
+          "text": "Maturity benefit: at the end of the policy period, 100% of sum assured plus accrued bonuses is payable as a lump sum. The sum assured is the amount payable in return for premium payment; the customer may choose a target amount and the premium is calculated from it. Accrued bonuses are added annually at a rate declared each year by the Company; the average declared rate over the last five years has been 4.5%. Death benefit: in the event of death during the term, 100% of sum assured plus accrued bonuses is paid to the beneficiaries/guardian as a lump sum and the policy terminates.",
+          "source_file": "Fanaka_layer_1_KFD.pdf",
+          "doc_type": "KFD_legal",
+          "source_priority": 1,
+          "tags": [
+            "benefits",
+            "maturity",
+            "death_benefit",
+            "bonus_rate"
+          ],
+          "ingested_date": "2026-07-04"
+        },
+        {
+          "chunk_id": "fanaka_003",
+          "product_id": "fanaka_plan",
+          "section": "riders",
+          "text": "Optional riders available at additional cost: (1) Disability Benefit - pays an additional 100% of sum assured in 36 equal monthly instalments upon total and permanent disablement from an accidental cause. (2) Waiver of Premium on disability - if the policyholder cannot pay premium due to total and permanent disability from illness or injury, all future premiums are waived and the policy stays in force to maturity, with sum assured plus accrued bonuses paid at maturity. (3) Adult Accident Hospitalization - reimburses actual inpatient medical costs from accidental bodily injury, limited to the lesser of 40% of policy sum assured and Ushs 2,500,000 per policy year.",
+          "source_file": "Fanaka_layer_1_KFD.pdf",
+          "doc_type": "KFD_legal",
+          "source_priority": 1,
+          "tags": [
+            "riders",
+            "disability_benefit",
+            "waiver_of_premium",
+            "hospitalization"
+          ],
+          "ingested_date": "2026-07-04"
+        },
+        {
+          "chunk_id": "fanaka_004",
+          "product_id": "fanaka_plan",
+          "section": "eligibility_and_limits",
+          "text": "Minimum savings period is 8 years, maximum is 20 years. Minimum premium is Ushs 100,000 per month. All policy benefits are tax-free and paid without any tax deduction. Entry age range 18 to 49 years (per sales handbook; confirm against KFD if not separately stated there). For sums assured above 150 million, a simple medical checkup is required before the policy can be issued.",
+          "source_file": "Fanaka_layer_1_KFD.pdf",
+          "doc_type": "KFD_legal",
+          "source_priority": 1,
+          "tags": [
+            "eligibility",
+            "minimum_premium",
+            "policy_term",
+            "medical_requirement"
+          ],
+          "ingested_date": "2026-07-04"
+        },
+        {
+          "chunk_id": "fanaka_005",
+          "product_id": "fanaka_plan",
+          "section": "exclusions",
+          "text": "Major exclusions: in case of death from suicide, war, or criminal acts, benefits are not payable. For additional benefits (riders), claims are not admissible if caused by attempted suicide, war, criminal acts, hazardous occupations, dangerous sports, or abuse of drugs and alcohol.",
+          "source_file": "Fanaka_layer_1_KFD.pdf",
+          "doc_type": "KFD_legal",
+          "source_priority": 1,
+          "tags": [
+            "exclusions"
+          ],
+          "ingested_date": "2026-07-04"
+        },
+        {
+          "chunk_id": "fanaka_006",
+          "product_id": "fanaka_plan",
+          "section": "policy_lifecycle",
+          "text": "Free look period: 30 calendar days from receipt of the policy document to cancel without penalty. Policy lapse: failing to pay premiums for 3 cumulative months or more lapses the policy; it can be reinstated by paying arrears and interest, or by extending maturity by the number of outstanding instalments, provided reactivation happens at least 12 months before expected maturity -- otherwise all premiums paid are forfeited. Surrender is only possible after 12 months of reactivating a lapsed policy, and only after 3 years of premium payment on an active policy.",
+          "source_file": "Fanaka_layer_1_KFD.pdf",
+          "doc_type": "KFD_legal",
+          "source_priority": 1,
+          "tags": [
+            "free_look",
+            "lapse",
+            "reinstatement",
+            "surrender"
+          ],
+          "ingested_date": "2026-07-04"
+        },
+        {
+          "chunk_id": "fanaka_007",
+          "product_id": "fanaka_plan",
+          "section": "policy_loan_and_paidup",
+          "text": "Policy loan: if active with full premiums paid for at least 3 years, eligible for a loan of up to 90% of the surrender value at 16% interest per annum. Paid-up value: if premium payment stops after at least 3 years of full payment, the policy can convert to paid-up status, exempting future premiums and paying a reduced sum assured at maturity.",
+          "source_file": "Fanaka_layer_1_KFD.pdf",
+          "doc_type": "KFD_legal",
+          "source_priority": 1,
+          "tags": [
+            "policy_loan",
+            "paid_up_value"
+          ],
+          "ingested_date": "2026-07-04"
+        },
+        {
+          "chunk_id": "fanaka_008",
+          "product_id": "fanaka_plan",
+          "section": "surrender_value_table",
+          "text": "Estimated percentage of premiums refunded on surrender, by policy duration and years elapsed: 5-year policy: 67%-79%. 7-year: 59%-78%. 10-year: 45%-78%. 12-year: 43%-76%. 15-year: 35%-75%. 20-year: 28%-98%. Terminating before the policy attains a surrender value forfeits all premiums paid.",
+          "source_file": "Fanaka_layer_1_KFD.pdf",
+          "doc_type": "KFD_legal",
+          "source_priority": 1,
+          "tags": [
+            "surrender_value",
+            "table"
+          ],
+          "ingested_date": "2026-07-04"
+        },
+        {
+          "chunk_id": "fanaka_009",
+          "product_id": "fanaka_plan",
+          "section": "claims_procedures",
+          "text": "Maturity claim requires: original policy document, National ID (or passport for foreigners), standing order cancellation forms. Death claim requires: original policy document, National ID/passport, death certificate, completed claim forms, and a police abstract if death was accidental. Permanent total disability claim requires the original policy document and medical reports from a registered hospital/practitioner; the claimant may be reviewed by Jubilee's doctor before the claim is admitted.",
+          "source_file": "Fanaka_layer_1_KFD.pdf",
+          "doc_type": "KFD_legal",
+          "source_priority": 1,
+          "tags": [
+            "claims",
+            "maturity_claim",
+            "death_claim",
+            "disability_claim"
+          ],
+          "ingested_date": "2026-07-04"
+        },
+        {
+          "chunk_id": "fanaka_010",
+          "product_id": "fanaka_plan",
+          "section": "faq",
+          "text": "What is a Fanaka Plan? A long-term savings plan that grows a client's money over time and pays a lump sum at maturity, while offering life cover and optional disability benefits. Riders are additional optional benefits a client can add to their policy.",
+          "source_file": "HANDBOOK_2026__2_.pptx",
+          "doc_type": "sales_handbook",
+          "source_priority": 2,
+          "tags": [
+            "faq"
+          ],
+          "ingested_date": "2026-07-04"
+        }
+      ]
+    },
+    {
+      "product_id": "smart_save_plan",
+      "product_name": "Jubilee Smart Save Plan",
+      "category": "life_savings",
+      "line_of_business": "Life Insurance",
+      "status": "active",
+      "mvp_scope": "in_scope",
+      "sources": [
+        {
+          "file": "WhatsApp_Image_2026-07-04_at_10_43_08.jpeg",
+          "doc_type": "KFD_legal",
+          "priority": 1
+        },
+        {
+          "file": "WhatsApp_Image_2026-07-04_at_10_43_07.jpeg",
+          "doc_type": "KFD_legal",
+          "priority": 1
+        },
+        {
+          "file": "JUBILEE_SMART_SAVE_11062025.ppt",
+          "doc_type": "product_calc_deck",
+          "priority": 2
+        },
+        {
+          "file": "HANDBOOK_2026__2_.pptx",
+          "doc_type": "sales_handbook",
+          "priority": 2
+        }
+      ],
+      "conflicts_resolved": [],
+      "open_action_items": [
+        "Bonus rate table (smartsave_010) is truncated in source -- get the complete table.",
+        "Confirm what the bonus rate table percentages actually represent (annual bonus rate vs. premium allocation vs. something else) -- ambiguous in source.",
+        "smartsave_009 confirms premium quotes must come from Jubilee's live portal calculator -- prioritize getting API/access to this for the agent's quoting tool."
+      ],
+      "chunks": [
+        {
+          "chunk_id": "smartsave_001",
+          "product_id": "smart_save_plan",
+          "section": "value_statement",
+          "text": "Jubilee Smart Save is a unique product providing the opportunity to save for children's education, business capital, buying a home, or any other financial need, with a competitive return on investment. It allows a disciplined, systematic way to save for a specific future financial need and, unlike a loan, builds a fund while providing protection cover.",
+          "source_file": "WhatsApp_Image_2026-07-04_at_10_43_08.jpeg",
+          "doc_type": "KFD_legal",
+          "source_priority": 1,
+          "tags": [
+            "overview"
+          ],
+          "ingested_date": "2026-07-04"
+        },
+        {
+          "chunk_id": "smartsave_002",
+          "product_id": "smart_save_plan",
+          "section": "eligibility_and_limits",
+          "text": "Premium frequency: monthly, quarterly, semi-annual, or annual (flexible methods include Salary Stop Order, Direct Debit). Policy term: 5 to 20 years. Minimum sum assured: Ushs 10,000,000. Entry age 18-64 years; maximum age at maturity is 70. Medical underwriting is required. Minimum monthly equivalent premium: Ushs 100,000. 30-day free-look period.",
+          "source_file": "WhatsApp_Image_2026-07-04_at_10_43_08.jpeg",
+          "doc_type": "KFD_legal",
+          "source_priority": 1,
+          "tags": [
+            "eligibility",
+            "policy_term",
+            "minimum_sum_assured",
+            "medical_underwriting"
+          ],
+          "ingested_date": "2026-07-04"
+        },
+        {
+          "chunk_id": "smartsave_003",
+          "product_id": "smart_save_plan",
+          "section": "benefits",
+          "text": "Maturity benefit (payable in 3 to 7 equal instalments or lump sum): 100% of guaranteed sum assured plus accrued bonuses, payable to the life assured. Death benefit (includes waiver of premium): 10% of sum assured payable immediately to the named beneficiary; a Family Income Benefit of 15% of sum assured payable annually to the named beneficiary up to the maturity date; future premiums are waived; and 100% of sum assured plus accrued bonuses is still payable to the named beneficiary at maturity.",
+          "source_file": "WhatsApp_Image_2026-07-04_at_10_43_08.jpeg",
+          "doc_type": "KFD_legal",
+          "source_priority": 1,
+          "tags": [
+            "benefits",
+            "maturity",
+            "death_benefit",
+            "family_income_benefit"
+          ],
+          "ingested_date": "2026-07-04"
+        },
+        {
+          "chunk_id": "smartsave_004",
+          "product_id": "smart_save_plan",
+          "section": "riders",
+          "text": "Optional riders: Total and Permanent Disability due to accident (TPD) - pays an amount equal to sum assured in 36 equal instalments if the life assured becomes totally and permanently disabled due to accident. Waiver of Premium (WoP) - remaining premiums are waived if the life assured is totally and permanently disabled due to accident or illness.",
+          "source_file": "JUBILEE_SMART_SAVE_11062025.ppt",
+          "doc_type": "sales_handbook",
+          "source_priority": 2,
+          "tags": [
+            "riders",
+            "disability_benefit"
+          ],
+          "ingested_date": "2026-07-04"
+        },
+        {
+          "chunk_id": "smartsave_005",
+          "product_id": "smart_save_plan",
+          "section": "surrender_value_table",
+          "text": "Surrender value table (% of total premiums refundable) by policy duration and years elapsed: 5 years: after 3 years, 77%-100%. 8 years: after 3-5 years, 46%-60%; after 6-7 years, 75%-89%. 10 years: after 3-6 years, 35%-58%; after 7-9 years, 70%-93%. 15 years: after 3-6 years, 22%-38%; after 7-11 years, 46%-76%; after 12-14 years, 82%-95%. 20 years: after 3-8 years, 17%-43%; after 9-14 years, 49%-75%; after 15-19 years, 79%-94%. Policy must have at least 3 years' premiums paid and an active status to surrender.",
+          "source_file": "WhatsApp_Image_2026-07-04_at_10_43_08.jpeg",
+          "doc_type": "KFD_legal",
+          "source_priority": 1,
+          "tags": [
+            "surrender_value",
+            "table"
+          ],
+          "ingested_date": "2026-07-04"
+        },
+        {
+          "chunk_id": "smartsave_006",
+          "product_id": "smart_save_plan",
+          "section": "exclusions",
+          "text": "In case of death from suicide, war, or criminal acts, benefits are not payable.",
+          "source_file": "WhatsApp_Image_2026-07-04_at_10_43_07.jpeg",
+          "doc_type": "KFD_legal",
+          "source_priority": 1,
+          "tags": [
+            "exclusions"
+          ],
+          "ingested_date": "2026-07-04"
+        },
+        {
+          "chunk_id": "smartsave_007",
+          "product_id": "smart_save_plan",
+          "section": "policy_lifecycle",
+          "text": "Days of grace: cumulatively up to 90 days of grace allowed for premiums to be outstanding without benefits being terminated (lapsed). A lapsed policy can be reinstated at any time provided at least 12 months remain to expiry, by paying full outstanding premiums and subsequent interest. Free look period: 30 calendar days from receipt of the policy document.",
+          "source_file": "WhatsApp_Image_2026-07-04_at_10_43_07.jpeg",
+          "doc_type": "KFD_legal",
+          "source_priority": 1,
+          "tags": [
+            "days_of_grace",
+            "lapse",
+            "free_look"
+          ],
+          "ingested_date": "2026-07-04"
+        },
+        {
+          "chunk_id": "smartsave_008",
+          "product_id": "smart_save_plan",
+          "section": "claims_procedures",
+          "text": "Maturity claim requires the original policy document, National ID/passport, and standing order cancellation forms. Death claim requires the original policy document, National ID/passport, death certificate, completed claim forms, and a police abstract where death was accidental.",
+          "source_file": "WhatsApp_Image_2026-07-04_at_10_43_07.jpeg",
+          "doc_type": "KFD_legal",
+          "source_priority": 1,
+          "tags": [
+            "claims"
+          ],
+          "ingested_date": "2026-07-04"
+        },
+        {
+          "chunk_id": "smartsave_009",
+          "product_id": "smart_save_plan",
+          "section": "calculation_methodology",
+          "text": "Internal method for calculating a Smart Save education-target quote: (1) determine the child's current school level or age if not yet in school; (2) derive the child's remaining school lifetime; (3) split that time into two phases -- the accumulation phase (the policy term, while premiums are paid in) and the pay-out phase (the school-fees period during which Jubilee pays out); (4) calculate the customer's target amount based on desired school-fee coverage; (5) calculate the actual premium using the calculators on the Jubilee portal. NOTE: step 5 explicitly defers to the portal calculator -- this confirms premium computation is NOT static and must be sourced live from Jubilee's calculation engine, not approximated from this deck.",
+          "source_file": "JUBILEE_SMART_SAVE_11062025.ppt",
+          "doc_type": "product_calc_deck",
+          "source_priority": 2,
+          "tags": [
+            "calculation_methodology",
+            "premium_calculation",
+            "needs_live_api"
+          ],
+          "ingested_date": "2026-07-04"
+        },
+        {
+          "chunk_id": "smartsave_010",
+          "product_id": "smart_save_plan",
+          "section": "bonus_rate_table_partial",
+          "text": "Partial bonus/accrual rate table by policy year, for policy terms of 5-20 years (values shown as % of something -- likely annual bonus accrual rate or premium allocation, not fully labeled in source; needs confirmation from Jubilee before being treated as authoritative). 1st policy year rates by term length: 5yr=22.23%, 6yr=22.23%, 7yr=22.23%, 8yr=26.67%, 9yr=31.12%, 10-20yr=35.56%. 2nd year: 5-7yr=6.67%, 8-20yr=8.89%. 3rd year: all terms =4.45%. Table appears truncated in the source file (cuts off after 3rd year row) -- request the complete table from Jubilee.",
+          "source_file": "JUBILEE_SMART_SAVE_11062025.ppt",
+          "doc_type": "product_calc_deck",
+          "source_priority": 2,
+          "tags": [
+            "bonus_rate",
+            "table",
+            "incomplete_data",
+            "needs_client_confirmation"
+          ],
+          "ingested_date": "2026-07-04"
+        }
+      ]
+    },
+    {
+      "product_id": "invest_plus_plan",
+      "product_name": "Jubilee Invest Plus",
+      "category": "life_savings",
+      "line_of_business": "Life Insurance",
+      "status": "active",
+      "mvp_scope": "out_of_scope",
+      "sources": [
+        {
+          "file": "HANDBOOK_2026__2_.pptx",
+          "doc_type": "sales_handbook",
+          "priority": 2
+        }
+      ],
+      "conflicts_resolved": [],
+      "open_action_items": [
+        "OUT OF MVP SCOPE per user direction -- focus is Fanaka, Smart Save, Health. Data kept here so nothing is lost, but the agent prompt should treat this product as background/inactive for now.",
+        "No KFD/legal source document supplied yet -- everything here is sourced from the sales handbook only, which is a lower-confidence single source. Get the formal KFD for this product.",
+        "investplus_004: handbook text muddles Hospital Cash Benefit and a 36-instalment disability payout into one paragraph -- confirm these are two distinct riders with Jubilee."
+      ],
+      "chunks": [
+        {
+          "chunk_id": "investplus_001",
+          "product_id": "invest_plus_plan",
+          "section": "value_statement",
+          "text": "Jubilee Invest Plus offers the opportunity to build a fund to achieve personal goals -- owning a home, business capital, a holiday, or future financial obligations -- through disciplined, systematic saving, with an additional lump sum payable on death to protect the policyholder's loved ones.",
+          "source_file": "HANDBOOK_2026__2_.pptx",
+          "doc_type": "sales_handbook",
+          "source_priority": 2,
+          "tags": [
+            "overview"
+          ],
+          "ingested_date": "2026-07-04"
+        },
+        {
+          "chunk_id": "investplus_002",
+          "product_id": "invest_plus_plan",
+          "section": "eligibility_and_limits",
+          "text": "Minimum savings period is 5 years, maximum 20 years. Minimum sum assured is Ushs 20,000,000. All policy benefits are tax-free and paid without tax deduction.",
+          "source_file": "HANDBOOK_2026__2_.pptx",
+          "doc_type": "sales_handbook",
+          "source_priority": 2,
+          "tags": [
+            "eligibility",
+            "policy_term",
+            "minimum_sum_assured"
+          ],
+          "ingested_date": "2026-07-04"
+        },
+        {
+          "chunk_id": "investplus_003",
+          "product_id": "invest_plus_plan",
+          "section": "benefits",
+          "text": "At the end of the policy period, 100% of guaranteed sum assured is paid as a lump sum; the customer can choose a target amount and the premium is calculated accordingly. On death during the term, 20% of the guaranteed sum assured is paid to the named beneficiary and all future premiums are waived to keep the policy in force; at maturity, 100% of the guaranteed sum assured is again paid as a lump sum to the beneficiaries/guardian.",
+          "source_file": "HANDBOOK_2026__2_.pptx",
+          "doc_type": "sales_handbook",
+          "source_priority": 2,
+          "tags": [
+            "benefits",
+            "maturity",
+            "death_benefit"
+          ],
+          "ingested_date": "2026-07-04"
+        },
+        {
+          "chunk_id": "investplus_004",
+          "product_id": "invest_plus_plan",
+          "section": "riders",
+          "text": "Optional riders: Hospital Cash Benefit - pays Ushs 100,000 per day of admission (up to Ushs 2,500,000 per policy year) for hospital stays of 3 or more consecutive days; also described as paying 100% of guaranteed sum assured in 36 monthly instalments upon accidental total and permanent disability (source text conflates two benefits here -- needs clarifying with Jubilee). Waiver of Premium on disability - future premiums waived on total/permanent disability from illness or injury; 100% of guaranteed sum assured payable at maturity.",
+          "source_file": "HANDBOOK_2026__2_.pptx",
+          "doc_type": "sales_handbook",
+          "source_priority": 2,
+          "tags": [
+            "riders",
+            "hospital_cash_benefit",
+            "disability_benefit",
+            "ambiguous_source_text"
+          ],
+          "ingested_date": "2026-07-04"
+        }
+      ]
+    },
+    {
+      "product_id": "venture_plan",
+      "product_name": "Jubilee Venture Plan",
+      "category": "life_savings",
+      "line_of_business": "Life Insurance",
+      "status": "active",
+      "mvp_scope": "out_of_scope",
+      "sources": [
+        {
+          "file": "HANDBOOK_2026__2_.pptx",
+          "doc_type": "sales_handbook",
+          "priority": 2
+        }
+      ],
+      "conflicts_resolved": [],
+      "open_action_items": [
+        "OUT OF MVP SCOPE per user direction -- focus is Fanaka, Smart Save, Health. Data kept here so nothing is lost, but the agent prompt should treat this product as background/inactive for now.",
+        "No KFD/legal source supplied yet -- get the formal KFD for this product before production use."
+      ],
+      "chunks": [
+        {
+          "chunk_id": "venture_001",
+          "product_id": "venture_plan",
+          "section": "value_statement",
+          "text": "Jubilee Venture Plan provides the opportunity to build a decent fund and provide benefits for loved ones in the event of death, designed for fair returns on savings toward future needs like children's education, completing a house, or investing in business.",
+          "source_file": "HANDBOOK_2026__2_.pptx",
+          "doc_type": "sales_handbook",
+          "source_priority": 2,
+          "tags": [
+            "overview"
+          ],
+          "ingested_date": "2026-07-04"
+        },
+        {
+          "chunk_id": "venture_002",
+          "product_id": "venture_plan",
+          "section": "benefits",
+          "text": "On survival to the end of the premium paying term: 100% of guaranteed sum assured is paid to the life assured and the policy terminates. On death during the premium paying term: 110% of premiums paid is payable to the named beneficiary and the policy terminates. On permanent total disability during the premium paying term: 110% of premiums paid is payable to the policy owner or named beneficiary and the policy terminates. Loans are granted on policies with no premium outstanding, within the surrender value, on terms the Company may set from time to time.",
+          "source_file": "HANDBOOK_2026__2_.pptx",
+          "doc_type": "sales_handbook",
+          "source_priority": 2,
+          "tags": [
+            "benefits",
+            "survival_benefit",
+            "death_benefit",
+            "disability_benefit",
+            "policy_loan"
+          ],
+          "ingested_date": "2026-07-04"
+        },
+        {
+          "chunk_id": "venture_003",
+          "product_id": "venture_plan",
+          "section": "eligibility_and_limits",
+          "text": "No underwriting required -- simple, straight-through onboarding. Entry age 18 to 65 years. Policy term ranges from 5 to 10 years. Minimum sum assured is Ushs 10,000,000, subject to a minimum monthly equivalent premium of Ushs 100,000. Premiums can be paid monthly, quarterly, semi-annually, or annually. Surrender value is available after at least 3 years of premium payment and a policy age of at least 3 years.",
+          "source_file": "HANDBOOK_2026__2_.pptx",
+          "doc_type": "sales_handbook",
+          "source_priority": 2,
+          "tags": [
+            "eligibility",
+            "policy_term",
+            "minimum_sum_assured",
+            "no_underwriting",
+            "surrender_value"
+          ],
+          "ingested_date": "2026-07-04"
+        }
+      ]
+    },
+    {
+      "product_id": "medical_health_insurance",
+      "product_name": "Jubilee Medical/Health Insurance (J-Care / J-Senior / J-Junior)",
+      "category": "health",
+      "line_of_business": "Medical Insurance",
+      "status": "active",
+      "mvp_scope": "in_scope",
+      "sources": [
+        {
+          "file": "WhatsApp_Image_2026-06-12_at_15_53_49.jpeg",
+          "doc_type": "KFD_legal",
+          "priority": 1
+        },
+        {
+          "file": "WhatsApp_Image_2026-06-12_at_15_53_48.jpeg",
+          "doc_type": "KFD_legal",
+          "priority": 1
+        },
+        {
+          "file": "WhatsApp_Image_2026-06-12_at_15_53_49__1_.jpeg",
+          "doc_type": "KFD_legal",
+          "priority": 1
+        },
+        {
+          "file": "HANDBOOK_2026__2_.pptx",
+          "doc_type": "sales_handbook",
+          "priority": 2
+        }
+      ],
+      "conflicts_resolved": [],
+      "open_action_items": [
+        "Full premium/benefit tables for J-Care, J-Junior, J-Senior now loaded. Still missing: full policy wording / KFD-style T&Cs, exclusions, and claims procedures specific to the medical line (current exclusions/waiting-period text is handbook-sourced only, not from a formal KFD) -- fine for MVP, get this before production.",
+        "See jubilee_provider_directory.json (separate file) for the hospital/clinic panel this plan uses -- do not merge that dataset into this one."
+      ],
+      "chunks": [
+        {
+          "chunk_id": "medical_001",
+          "product_id": "medical_health_insurance",
+          "section": "overview",
+          "text": "Medical insurance covers healthcare expenses -- hospitalization, consultations, medication, and treatments -- when a client is sick or injured. Three plans are available: J-Care (general/family, comprehensive inpatient and outpatient), J-Senior (ages 60-80), and J-Junior (children 0-17). Each plan has 5 tiers except J-Senior, which has 4.",
+          "source_file": "HANDBOOK_2026__2_.pptx",
+          "doc_type": "sales_handbook",
+          "source_priority": 2,
+          "tags": [
+            "overview",
+            "plan_variants"
+          ],
+          "ingested_date": "2026-07-04"
+        },
+        {
+          "chunk_id": "medical_002",
+          "product_id": "medical_health_insurance",
+          "section": "jcare_overview",
+          "text": "J-Care offers comprehensive inpatient and outpatient coverage for the whole family, including maternity, dental, optical, last expense, and personal accident benefits. Five tiers: Classic, Premier, Advanced, Executive, Royal.",
+          "source_file": "WhatsApp_Image_2026-06-12_at_15_53_49.jpeg",
+          "doc_type": "KFD_legal",
+          "source_priority": 1,
+          "tags": [
+            "jcare",
+            "overview"
+          ],
+          "ingested_date": "2026-07-04"
+        },
+        {
+          "chunk_id": "medical_003",
+          "product_id": "medical_health_insurance",
+          "section": "jcare_benefit_limits",
+          "text": "J-Care benefit limits (Ushs) by tier -- Classic / Premier / Advanced / Executive / Royal: Inpatient: 15,000,000 / 30,000,000 / 60,000,000 / 90,000,000 / 150,000,000. Outpatient: 1,500,000 / 1,500,000 / 2,400,000 / 3,000,000 / 4,500,000. Maternity: 2,400,000 / 3,000,000 / 3,600,000 / 3,600,000 / 4,500,000. Dental: 150,000 / 300,000 / 600,000 / 900,000 / 1,200,000. Optical: 150,000 / 300,000 / 600,000 / 900,000 / 1,200,000. Last Expense: 1,500,000 / 1,500,000 / 2,250,000 / 3,000,000 / 3,000,000. Personal Accident: 15,000,000 across all tiers.",
+          "source_file": "WhatsApp_Image_2026-06-12_at_15_53_49.jpeg",
+          "doc_type": "KFD_legal",
+          "source_priority": 1,
+          "tags": [
+            "jcare",
+            "benefit_limits",
+            "table",
+            "inpatient",
+            "outpatient",
+            "maternity",
+            "dental",
+            "optical"
+          ],
+          "ingested_date": "2026-07-04"
+        },
+        {
+          "chunk_id": "medical_004",
+          "product_id": "medical_health_insurance",
+          "section": "jcare_premiums",
+          "text": "J-Care annual premiums (Ushs) by age band and tier -- Classic / Premier / Advanced / Executive / Royal: (1 month-17yrs, excludes Personal Accident): 845,388 / 986,884 / 1,321,330 / 1,612,040 / 2,118,854. (1 month-17yrs, with Personal Accident): 819,155 / 959,947 / 1,292,729 / 1,581,993 / 2,086,285. (18-30yrs): 1,022,901 / 1,254,441 / 1,648,057 / 2,015,948 / 2,581,933. (31-40yrs): 1,038,337 / 1,277,594 / 1,676,357 / 2,051,965 / 2,623,095. (41-50yrs): 1,154,401 / 1,422,047 / 1,790,334 / 2,135,455 / 2,578,733. (51-59yrs): 1,460,253 / 1,830,716 / 2,347,821 / 2,849,489 / 3,502,945. Maternity (standalone rate): 657,884 / 706,521 / 760,278 / 760,278 / 908,750.",
+          "source_file": "WhatsApp_Image_2026-06-12_at_15_53_49.jpeg",
+          "doc_type": "KFD_legal",
+          "source_priority": 1,
+          "tags": [
+            "jcare",
+            "premiums",
+            "table",
+            "age_bands"
+          ],
+          "ingested_date": "2026-07-04"
+        },
+        {
+          "chunk_id": "medical_005",
+          "product_id": "medical_health_insurance",
+          "section": "jjunior_overview",
+          "text": "J-Junior is tailored for children aged 0-17, covering comprehensive inpatient and outpatient care, dental, and optical benefits. Five tiers: Classic, Premier, Advanced, Executive, Royal.",
+          "source_file": "WhatsApp_Image_2026-06-12_at_15_53_48.jpeg",
+          "doc_type": "KFD_legal",
+          "source_priority": 1,
+          "tags": [
+            "jjunior",
+            "overview"
+          ],
+          "ingested_date": "2026-07-04"
+        },
+        {
+          "chunk_id": "medical_006",
+          "product_id": "medical_health_insurance",
+          "section": "jjunior_benefit_limits",
+          "text": "J-Junior benefit limits (Ushs) by tier -- Classic / Premier / Advanced / Executive / Royal: Inpatient: 15,000,000 / 30,000,000 / 60,000,000 / 90,000,000 / 150,000,000. Outpatient: 1,500,000 / 1,500,000 / 2,400,000 / 3,000,000 / 4,500,000. Dental: 150,000 / 300,000 / 600,000 / 900,000 / 1,200,000. Optical: 150,000 / 300,000 / 600,000 / 900,000 / 1,200,000. Last Expense: 1,500,000 / 1,500,000 / 2,250,000 / 3,000,000 / 3,000,000. Wellness Check: not available (N/A) on Classic, Premier, or Advanced; 500,000 on Executive and Royal.",
+          "source_file": "WhatsApp_Image_2026-06-12_at_15_53_48.jpeg",
+          "doc_type": "KFD_legal",
+          "source_priority": 1,
+          "tags": [
+            "jjunior",
+            "benefit_limits",
+            "table",
+            "wellness_check"
+          ],
+          "ingested_date": "2026-07-04"
+        },
+        {
+          "chunk_id": "medical_007",
+          "product_id": "medical_health_insurance",
+          "section": "jjunior_premiums",
+          "text": "J-Junior annual premium (Ushs), age band 1 month-17 years, by tier -- Classic: 1,010,038. Premier: 1,241,577. Advanced: 1,635,194. Executive: 2,003,084. Royal: 2,569,069.",
+          "source_file": "WhatsApp_Image_2026-06-12_at_15_53_48.jpeg",
+          "doc_type": "KFD_legal",
+          "source_priority": 1,
+          "tags": [
+            "jjunior",
+            "premiums",
+            "table"
+          ],
+          "ingested_date": "2026-07-04"
+        },
+        {
+          "chunk_id": "medical_008",
+          "product_id": "medical_health_insurance",
+          "section": "jsenior_overview",
+          "text": "J-Senior is designed for individuals aged 60 and above, providing inpatient and outpatient care plus dental and optical benefits. Four tiers: Bronze, Silver, Gold, Diamond.",
+          "source_file": "WhatsApp_Image_2026-06-12_at_15_53_49__1_.jpeg",
+          "doc_type": "KFD_legal",
+          "source_priority": 1,
+          "tags": [
+            "jsenior",
+            "overview"
+          ],
+          "ingested_date": "2026-07-04"
+        },
+        {
+          "chunk_id": "medical_009",
+          "product_id": "medical_health_insurance",
+          "section": "jsenior_benefit_limits",
+          "text": "J-Senior benefit limits (Ushs) by tier -- Bronze / Silver / Gold / Diamond: Inpatient: 20,000,000 / 50,000,000 / 70,000,000 / 160,000,000. Outpatient: 2,500,000 / 3,500,000 / 4,500,000 / 5,500,000. Dental: 300,000 / 600,000 / 900,000 / 1,200,000. Optical: 300,000 / 600,000 / 900,000 / 1,200,000. Last Expense: 1,500,000 / 1,500,000 / 2,500,000 / 3,000,000.",
+          "source_file": "WhatsApp_Image_2026-06-12_at_15_53_49__1_.jpeg",
+          "doc_type": "KFD_legal",
+          "source_priority": 1,
+          "tags": [
+            "jsenior",
+            "benefit_limits",
+            "table"
+          ],
+          "ingested_date": "2026-07-04"
+        },
+        {
+          "chunk_id": "medical_010",
+          "product_id": "medical_health_insurance",
+          "section": "jsenior_premiums",
+          "text": "J-Senior annual premiums (Ushs), age band 60-80 years, by tier -- Bronze / Silver / Gold / Diamond: With Co-payment: 2,507,871 / 3,165,639 / 3,662,957 / 4,070,182. Without Co-payment: 2,755,158 / 3,478,703 / 4,025,752 / 4,473,700.",
+          "source_file": "WhatsApp_Image_2026-06-12_at_15_53_49__1_.jpeg",
+          "doc_type": "KFD_legal",
+          "source_priority": 1,
+          "tags": [
+            "jsenior",
+            "premiums",
+            "table",
+            "co_payment"
+          ],
+          "ingested_date": "2026-07-04"
+        },
+        {
+          "chunk_id": "medical_011",
+          "product_id": "medical_health_insurance",
+          "section": "coverage_scope",
+          "text": "Inpatient cover includes hospital stays, surgery, ICU, doctor fees, and emergency services. Outpatient cover includes consultations, lab tests, medication, scans, and physiotherapy. Dental and optical, including treatment and eye care services, are covered. Last expense benefit is a lump sum paid to support funeral expenses. Clients access treatment using an E-card at approved hospitals on the Jubilee provider panel.",
+          "source_file": "HANDBOOK_2026__2_.pptx",
+          "doc_type": "sales_handbook",
+          "source_priority": 2,
+          "tags": [
+            "inpatient",
+            "outpatient",
+            "dental",
+            "optical",
+            "last_expense",
+            "provider_panel"
+          ],
+          "ingested_date": "2026-07-04"
+        },
+        {
+          "chunk_id": "medical_012",
+          "product_id": "medical_health_insurance",
+          "section": "waiting_periods_and_exclusions",
+          "text": "Waiting periods apply: 30 days for illness, up to 1-2 years for certain conditions. Certain pre-existing conditions, major surgeries within waiting periods, and some specialized treatments are not covered. Pre-authorization is required for planned admissions and certain scans such as MRI.",
+          "source_file": "HANDBOOK_2026__2_.pptx",
+          "doc_type": "sales_handbook",
+          "source_priority": 2,
+          "tags": [
+            "waiting_period",
+            "exclusions",
+            "pre_authorization"
+          ],
+          "ingested_date": "2026-07-04"
+        }
+      ]
+    },
+    {
+      "product_id": "career_life_plan",
+      "product_name": "J Career Life Plan",
+      "category": "unknown",
+      "line_of_business": "Life Insurance",
+      "status": "data_missing",
+      "mvp_scope": "out_of_scope",
+      "sources": [],
+      "conflicts_resolved": [],
+      "open_action_items": [
+        "'J Career Life Plan' is named in the Handbook's product list (Slide 3) but has no detail slide or supporting document. The agent cannot answer questions about this product until a product sheet or KFD is supplied."
+      ],
+      "chunks": []
+    },
+    {
+      "product_id": "education_plus_plan",
+      "product_name": "Education Plus Plan",
+      "category": "unknown",
+      "line_of_business": "Life Insurance",
+      "status": "data_missing",
+      "mvp_scope": "out_of_scope",
+      "sources": [],
+      "conflicts_resolved": [],
+      "open_action_items": [
+        "'Education Plus Plan' is named in the Handbook's product list (Slide 3) but has no detail slide or supporting document. The agent cannot answer questions about this product until a product sheet or KFD is supplied."
+      ],
+      "chunks": []
+    }
+  ],
+  "agent_support_content": {
+    "sales_objection_handling": [
+      {
+        "objection": "Why do I need insurance?",
+        "suggested_response": "Life insurance is a financial safety net for you and your loved ones -- it supports business and family continuity, can provide for inheritance and retirement plans, and in the event of untimely death, leaves an untaxed amount that replaces lost income and covers final expenses."
+      },
+      {
+        "objection": "I already have a life insurance policy.",
+        "suggested_response": "Offer a brief, no-pressure assessment of whether their existing policy is adequate for their goals (investment, education planning, etc.), rather than trying to sell a new policy outright."
+      },
+      {
+        "objection": "I don't have money.",
+        "suggested_response": "Life insurance is flexible -- plans can start with a small amount that still offers meaningful family protection."
+      },
+      {
+        "objection": "I'll think about it.",
+        "suggested_response": "Ask what specifically they'd like to think about, so the agent can clarify concerns and follow up appropriately."
+      },
+      {
+        "objection": "I don't have dependents.",
+        "suggested_response": "Life insurance can also support future family plans, savings, investments, and travel goals, not only dependents."
+      },
+      {
+        "objection": "I already have savings.",
+        "suggested_response": "Savings help, but life insurance adds broader protection alongside savings."
+      },
+      {
+        "objection": "Insurance is very expensive.",
+        "suggested_response": "Flexible plans exist that fit different budgets while still providing protection."
+      },
+      {
+        "objection": "Nothing bad has ever happened to me.",
+        "suggested_response": "Insurance keeps a person prepared so that if something unexpected happens, they remain financially protected."
+      },
+      {
+        "objection": "I'll start next month.",
+        "suggested_response": "Starting earlier means protection begins immediately, before any unexpected risk arises."
+      },
+      {
+        "objection": "I've heard bad stories about insurance.",
+        "suggested_response": "Acknowledge that experiences differ, which is why choosing the right company and advisor matters."
+      }
+    ],
+    "company_background": {
+      "text": "Jubilee Holdings Limited, founded in 1937, was the pioneer incorporated insurance company in Mombasa and has grown into a leading regional composite insurer, with operations in Kenya, Uganda, Tanzania, Mauritius, and Burundi. It is an affiliate of the Aga Khan Fund for Economic Development group.",
+      "source": "HANDBOOK_2026__2_.pptx",
+      "doc_type": "sales_handbook"
+    },
+    "usage_note": "This content should never be retrieved as a factual answer to a 'what does this product cover' question -- it's tone/persona material for framing responses to hesitant customers, kept in a separate index namespace from product facts so it can't accidentally override a benefit/exclusion answer."
+  }
+}
