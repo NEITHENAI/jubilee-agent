@@ -27,3 +27,9 @@ yarn-error.log*
 # local env files
 .env*.local
 .env
+
+# Portable tools (local only)
+/node-portable/
+/mingit/
+/node.zip
+/mingit.zip
