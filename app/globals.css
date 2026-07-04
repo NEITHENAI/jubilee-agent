@@ -223,3 +223,81 @@ textarea::placeholder {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.2); }
+
+/* ── Mobile Responsive ───────────────────────────────────────────── */
+@media (max-width: 768px) {
+  body {
+    flex-direction: column;
+    height: 100dvh; /* dynamic viewport height handles mobile browser bars */
+  }
+
+  .main-container {
+    flex-direction: column;
+    height: 100dvh;
+  }
+
+  /* Sidebar becomes a slim top header bar */
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-right: none;
+    border-bottom: 1px solid var(--panel-border);
+    flex-shrink: 0;
+  }
+
+  .logo-container {
+    margin-bottom: 0;
+    font-size: 1rem;
+  }
+
+  /* Hide the description text on mobile — too cramped */
+  .sidebar > div:last-child {
+    display: none;
+  }
+
+  .main-content {
+    flex: 1;
+    min-height: 0; /* allow flex children to scroll */
+    display: flex;
+    flex-direction: column;
+  }
+
+  .chat-container {
+    flex: 1;
+    padding: 16px 12px;
+    gap: 16px;
+    overflow-y: auto;
+  }
+
+  .message-wrapper {
+    max-width: 100%;
+  }
+
+  .message {
+    max-width: 90%;
+    font-size: 0.9rem;
+    padding: 12px 14px;
+  }
+
+  .input-container {
+    padding: 10px 12px 16px 12px;
+    flex-shrink: 0;
+  }
+
+  .input-box {
+    border-radius: 18px;
+    padding: 10px 12px;
+  }
+
+  textarea {
+    font-size: 0.95rem;
+  }
+
+  .send-btn {
+    width: 36px;
+    height: 36px;
+  }
+}
